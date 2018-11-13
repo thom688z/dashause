@@ -33,9 +33,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="teater.html">
+                    <a href="koncerter.html">
                         <div class="icon">
-                            <i class="fa fa-institution"></i>
+                            <i class="fa fa-music" aria-hidden="true"></i>
                         </div>
                     </a>
                 </li>
@@ -46,7 +46,7 @@
                         </div>
                     </a>
                 </li>
-                 <li>
+                <li>
                     <a href="andet.html">
                         <div class="icon">
                             <i class="fa fa-random"></i>
@@ -59,53 +59,55 @@
 
     </header>
 
-   <main>
-        <section class="container" data-container></section>
-        <template data-template>
-            <article class="postListview">
-             <h2 data-title></h2>
-             <p data-dato></p>
-                  <p data-sted></p>
-            <a href="" class="single">
-             <img src="" alt="">
-                </a>
-                        </article>
-         </template>
+    <div class="maincontainer">
 
-    </main>
+        <article id="">
+            <section class="event">
+                <h2 class="data-titel"></h2>
+                <p class="data-dato"></p>
+                <p class="data-sted"></p>
+                <a href="" class="linktosingle">
+                <img class="data-img" src="">
+            </a>
+                <p class="data-tid"></p>
+                <p class="data-door"></p>
+                <p class="data-pris"></p>
+                <p class="data-forsalg"></p>
+                <p class="data-billet"></p>
+                <p class="data-beskrivelse"></p>
+            </section>
+        </article>
+
+    </div>
+
     <script>
-        document.addEventListener("DOMContentLoaded", getJSON);
-        let posts;
-        let postTemplate = document.querySelector("[data-template]");
-        let postContainer = document.querySelector("[data-container]");
+        //find url-variablen id:
+        let url = new URL(window.location.href);
+        let variabler = new URLSearchParams(url.search);
+        let id = variabler.get("id");
+        async function getJson() {
+            let eventObjekt = await fetch("http://snikster.dk/KEA/07/huset/wordpress/wp-json/wp/v2/koncerter/" + id);
+            let post = await eventObjekt.json();
 
-        async function getJSON() {
-            let jsonData = await fetch("http://snikster.dk/KEA/07/huset/wordpress/wp-json/wp/v2/koncerter");
-            posts = await jsonData.json();
-            visPosts();
+
+            document.querySelector(".data-titel").textContent = post.title.rendered;
+            document.querySelector(".data-img").setAttribute("src", post.acf.billede);
+            document.querySelector(".data-dato").textContent = "dato: " + post.acf.dato;
+            document.querySelector(".data-tid").textContent = "spilletid kl.: " + post.acf.tid;
+            document.querySelector(".data-door").textContent = "dørene åbner kl.: " + post.acf.door;
+            document.querySelector(".data-sted").textContent = post.acf.sted;
+            document.querySelector(".data-pris").textContent = "kr. " + post.acf.pris;
+            document.querySelector(".data-forsalg").textContent = "kr. " + post.acf.forsalg;
+            document.querySelector(".data-beskrivelse").innerHTML = post.content.rendered;
         }
+        document.addEventListener("DOMContentLoaded", getJson);
 
-        function visPosts() {
-
-            console.log(posts);
-
-            posts.forEach(post => {
-                let klon = postTemplate.cloneNode(true).content;
-                klon.querySelector("[data-title]").textContent = post.title.rendered;
-                klon.querySelector("[data-dato]").textContent = post.acf.dato;
-                klon.querySelector("img").src = post.acf.billede;
-                klon.querySelector("[data-sted]").textContent = post.acf.sted;
-                klon.querySelector(".single").setAttribute("href", "single_k.html?id=" + post.id);
-                postContainer.appendChild(klon);
-
-            })
-        }
     </script>
 
-        <footer>
-            <div class="column_content">
+    <footer>
+        <div class="column_content">
 
-             <a href="https://www.facebook.com/Huset.Koebenhavn" class="fa fa-facebook"></a>
+            <a href="https://www.facebook.com/Huset.Koebenhavn" class="fa fa-facebook"></a>
             <a href="https://www.instagram.com/husetkbh/" class="fa fa-instagram"></a>
             <a href="https://twitter.com/HusetKBH" class="fa fa-twitter"></a>
             <a href="https://www.flickr.com/photos/135006755@N04/" class="fa fa-flickr"></a>
@@ -113,7 +115,7 @@
 
     </footer>
 
-        <script src="menu.js"></script>
+    <script src="menu.js"></script>
 </body>
 
 </html>

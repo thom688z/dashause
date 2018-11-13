@@ -17,15 +17,6 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="36x36" href="Icon-36.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="Icon-48.png">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-
-
 </head>
 
 <body>
@@ -68,46 +59,47 @@
 
     </header>
 
-   <main>
-    <section class="container" data-container></section>
-         <template data-template>
+ <main>
+        <section class="container" data-container></section>
+        <template data-template>
             <article class="postListview">
              <h2 data-title></h2>
              <p data-dato></p>
+                  <p data-sted></p>
+            <a href="" class="single">
              <img src="" alt="">
-             <p data-sted></p>
-             </article>
+                </a>
+                        </article>
          </template>
 
-   </main>
-   <script>
-   document.addEventListener("DOMContentLoaded", getJSON);
-   let posts;
-       let postTemplate = document.querySelector("[data-template]");
-       let postContainer = document.querySelector("[data-container]");
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", getJSON);
+        let posts;
+        let postTemplate = document.querySelector("[data-template]");
+        let postContainer = document.querySelector("[data-container]");
 
-async function getJSON(){
-    let jsonData = await fetch("http://snikster.dk/KEA/07/huset/wordpress/wp-json/wp/v2/filmevents");
-    posts = await jsonData.json();
-    visPosts();
-}
+        async function getJSON() {
+            let jsonData = await fetch("http://snikster.dk/KEA/07/huset/wordpress/wp-json/wp/v2/filmevents");
+            posts = await jsonData.json();
+            visPosts();
+        }
 
-       function visPosts(){
+        function visPosts() {
 
-           console.log(posts);
+            console.log(posts);
 
-           posts.forEach(post =>{
-               let klon = postTemplate.cloneNode(true).content;
-               klon.querySelector("[data-title]").textContent = post.title.rendered;
-               klon.querySelector("[data-dato]").textContent = post.acf.dato;
+            posts.forEach(post => {
+                let klon = postTemplate.cloneNode(true).content;
+                klon.querySelector("[data-title]").textContent = post.title.rendered;
+                klon.querySelector("[data-dato]").textContent = post.acf.dato;
                 klon.querySelector("img").src = post.acf.billede;
-               klon.querySelector("[data-sted]").textContent = post.acf.sted;
+                klon.querySelector("[data-sted]").textContent = post.acf.sted;
+                klon.querySelector(".single").setAttribute("href", "single_f.html?id=" + post.id);
+                postContainer.appendChild(klon);
 
-               postContainer.appendChild(klon);
-
-           })
-       }
-
+            })
+        }
     </script>
 
         <footer>
