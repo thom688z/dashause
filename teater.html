@@ -35,7 +35,7 @@
                 <li>
                     <a href="koncerter.html">
                         <div class="icon">
-                           <i class="fa fa-music" aria-hidden="true"></i>
+                            <i class="fa fa-music" aria-hidden="true"></i>
                         </div>
                     </a>
                 </li>
@@ -46,7 +46,7 @@
                         </div>
                     </a>
                 </li>
-                 <li>
+                <li>
                     <a href="andet.html">
                         <div class="icon">
                             <i class="fa fa-random"></i>
@@ -59,54 +59,53 @@
 
     </header>
 
-   <main>
-    <section class="container" data-container></section>
-         <template data-template>
+    <main>
+        <section class="container" data-container></section>
+        <template data-template>
             <article class="postListview">
              <h2 data-title></h2>
              <p data-dato></p>
+                  <p data-sted></p>
             <a href="" class="single">
              <img src="" alt="">
                 </a>
-             <p data-sted></p>
-             </article>
+                        </article>
          </template>
 
-   </main>
-   <script>
-   document.addEventListener("DOMContentLoaded", getJSON);
-   let posts;
-       let postTemplate = document.querySelector("[data-template]");
-       let postContainer = document.querySelector("[data-container]");
+    </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", getJSON);
+        let posts;
+        let postTemplate = document.querySelector("[data-template]");
+        let postContainer = document.querySelector("[data-container]");
 
-async function getJSON(){
-    let jsonData = await fetch("http://snikster.dk/KEA/07/huset/wordpress/wp-json/wp/v2/teaterevents");
-    posts = await jsonData.json();
-    visPosts();
-}
+        async function getJSON() {
+            let jsonData = await fetch("http://snikster.dk/KEA/07/huset/wordpress/wp-json/wp/v2/teaterevents");
+            posts = await jsonData.json();
+            visPosts();
+        }
 
-       function visPosts(){
+        function visPosts() {
 
-           console.log(posts);
+            console.log(posts);
 
-           posts.forEach(post =>{
-               let klon = postTemplate.cloneNode(true).content;
-               klon.querySelector("[data-title]").textContent = post.title.rendered;
-               klon.querySelector("[data-dato]").textContent = post.acf.dato;
-               klon.querySelector("img").src = post.acf.billede;
-               klon.querySelector("[data-sted]").textContent = post.acf.sted;
-               klon.querySelector(".single").setAttribute("href", "single.html?id=" + post.id);
-               postContainer.appendChild(klon);
+            posts.forEach(post => {
+                let klon = postTemplate.cloneNode(true).content;
+                klon.querySelector("[data-title]").textContent = post.title.rendered;
+                klon.querySelector("[data-dato]").textContent = post.acf.dato;
+                klon.querySelector("img").src = post.acf.billede;
+                klon.querySelector("[data-sted]").textContent = post.acf.sted;
+                klon.querySelector(".single").setAttribute("href", "single.html?id=" + post.id);
+                postContainer.appendChild(klon);
 
-           })
-       }
-
+            })
+        }
     </script>
 
-        <footer>
-            <div class="column_content">
+    <footer>
+        <div class="column_content">
 
-             <a href="https://www.facebook.com/Huset.Koebenhavn" class="fa fa-facebook"></a>
+            <a href="https://www.facebook.com/Huset.Koebenhavn" class="fa fa-facebook"></a>
             <a href="https://www.instagram.com/husetkbh/" class="fa fa-instagram"></a>
             <a href="https://twitter.com/HusetKBH" class="fa fa-twitter"></a>
             <a href="https://www.flickr.com/photos/135006755@N04/" class="fa fa-flickr"></a>
@@ -114,7 +113,7 @@ async function getJSON(){
 
     </footer>
 
-        <script src="menu.js"></script>
+    <script src="menu.js"></script>
 </body>
 
 </html>
